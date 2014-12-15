@@ -16,11 +16,9 @@ mysql_run() {
 
 # Install required Debian packages
 _packages=
-# _packages="$_packages nginx"
 _packages="$_packages mysql-server"
 
 # Install NodeJS and fix bon/node -> nodejs
-# python and build-essential are required to build the nodegit module
 _packages="$_packages nodejs"
 _packages="$_packages abiword"
 
@@ -34,21 +32,6 @@ if [ ! -x /usr/bin/npm ]; then
     sh npmjs.install.sh \
         || nef_fatal "could not install npm"
 fi
-
-
-# # Fix Nginx
-# _force_nginx_restart=no
-# if [ -r /etc/nginx/sites-enabled/default ]; then
-#     rm -f /etc/nginx/sites-enabled/default
-#     _force_nginx_restart=yes
-# fi
-# if ps x | grep nginx | grep -vq grep; then
-#     if [ $_force_nginx_restart = yes ]; then
-#         service nginx restart
-#     fi
-# else
-#     service nginx start
-# fi
 
 
 
