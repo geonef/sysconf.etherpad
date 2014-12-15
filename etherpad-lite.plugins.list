@@ -1,0 +1,12 @@
+# List of plugins to be installed for etherpad-lite by sysconf
+#
+# To add a plugin, add its name from the list:
+# https://github.com/ether/etherpad-lite/wiki/Plugin,-a-list
+#
+# GITTED This is imported by Gitted into VM state but not exported.
+# SYNTAX Comments are allowed on they own line
+
+ep_small_list
+ep_linkify
+ep_set_title_on_pad
+ep_historicalsearch
