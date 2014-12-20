@@ -18,7 +18,7 @@ mysql_run() {
 _packages=
 _packages="$_packages mysql-server"
 
-# Install NodeJS and fix bon/node -> nodejs
+# Install NodeJS and fix bin/node -> nodejs
 _packages="$_packages nodejs"
 _packages="$_packages abiword"
 
@@ -32,8 +32,6 @@ if [ ! -x /usr/bin/npm ]; then
     sh npmjs.install.sh \
         || nef_fatal "could not install npm"
 fi
-
-
 
 # Create MySQL database and user for etherpad
 mysql_run "CREATE DATABASE IF NOT EXISTS etherpad"
