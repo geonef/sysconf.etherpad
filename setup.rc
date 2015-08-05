@@ -17,6 +17,7 @@ mysql_run() {
 # Install required Debian packages
 _packages=
 _packages="$_packages mysql-server"
+_packages="$_packages nginx-light"
 
 # Install NodeJS and fix bin/node -> nodejs
 _packages="$_packages nodejs"
