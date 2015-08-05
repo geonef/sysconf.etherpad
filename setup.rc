@@ -89,4 +89,18 @@ else
     service etherpad-lite start
 fi
 
+# Fix Nginx
+_force_nginx_restart=no
+if [ -r /etc/nginx/sites-enabled/default ]; then
+    rm -f /etc/nginx/sites-enabled/default
+    _force_nginx_restart=yes
+fi
+if ps x | grep nginx | grep -vq grep; then
+    if [ $_force_nginx_restart = yes ]; then
+        service nginx restart
+    fi
+else
+    service nginx start
+fi
+
 # END
