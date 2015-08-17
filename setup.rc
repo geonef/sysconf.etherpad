@@ -68,19 +68,20 @@ if [ ! -d /var/lib/etherpad-lite ]; then
 fi
 
 # Ethpad plugins as listed in sysconf profile's etherpad-lite.plugins.list
-if [ -r $sysconf_profile_path/etherpad-lite.plugins.list ]; then
-    cd /var/lib/etherpad-lite
-    cat $sysconf_profile_path/etherpad-lite.plugins.list | (
-        while read line; do
-            if echo "$line" | grep -q '^ *[^ #]'; then
-                plugin=$(echo "$line" | xargs)
+# # if [ -r $sysconf_profile_path/etherpad-lite.plugins.list ]; then
+# # cat $sysconf_profile_path/etherpad-lite.plugins.list | (
+cd /var/lib/etherpad-lite
+cat /etc/etherpad/plugins.d/*.plugins 2>/dev/null | while read line; do
+    # (
+    if echo "$line" | grep -q '^ *[^ #]'; then
+        plugin=$(echo "$line" | xargs)
 
-                echo "Installing EtherpadLite plugin: $plugin"
-                sudo -u etherpad-lite -g etherpad-lite npm install $plugin
-            fi
-        done
-    )
-fi
+        echo "Installing EtherpadLite plugin: $plugin"
+        sudo -u etherpad-lite -g etherpad-lite npm install $plugin
+    fi
+done
+# )
+# fi
 
 # Finally...
 if ps aux | grep etherpad | grep -qv grep; then
