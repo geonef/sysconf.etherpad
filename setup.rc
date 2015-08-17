@@ -6,7 +6,6 @@ sysconf_profile_path=$(pwd)
 
 mysql_run() {
     echo "MySQL query: $1" >&2
-    echo "$1" >&2
     echo "$1" | mysql
     local _status=${PIPESTATUS[1]}
     if [ $_status -ne 0 ]; then
@@ -76,12 +75,19 @@ cat /etc/etherpad/plugins.d/*.plugins 2>/dev/null | while read line; do
     if echo "$line" | grep -q '^ *[^ #]'; then
         plugin=$(echo "$line" | xargs)
 
-        echo "Installing EtherpadLite plugin: $plugin"
-        sudo -u etherpad-lite -g etherpad-lite npm install $plugin
+        if [ ! -r "node_modules/$plugin" ]; then
+            echo "Installing EtherpadLite plugin: $plugin"
+            sudo -u etherpad-lite -g etherpad-lite npm install $plugin
+        fi
     fi
 done
 # )
 # fi
+
+# Enable service
+if [ "$(find /etc/rc*.d -name '*etherpad-lite' | wc -l)" -ne 0 ]; then
+    update-rc.d etherpad-lite defaults
+fi
 
 # Finally...
 if ps aux | grep etherpad | grep -qv grep; then
