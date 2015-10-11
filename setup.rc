@@ -66,23 +66,22 @@ if [ ! -d /var/lib/etherpad-lite ]; then
     ln -s /etc/etherpad-lite.json settings.json
 fi
 
-# Ethpad plugins as listed in sysconf profile's etherpad-lite.plugins.list
-# # if [ -r $sysconf_profile_path/etherpad-lite.plugins.list ]; then
-# # cat $sysconf_profile_path/etherpad-lite.plugins.list | (
-cd /var/lib/etherpad-lite
-cat /etc/etherpad/plugins.d/*.plugins 2>/dev/null | while read line; do
-    # (
-    if echo "$line" | grep -q '^ *[^ #]'; then
-        plugin=$(echo "$line" | xargs)
+# Etherpad plugins as listed in sysconf profile's etherpad-lite.plugins.list
+if [ -r $sysconf_profile_path/etherpad-lite.plugins.list ]; then
+    cd /var/lib/etherpad-lite
+    cat $sysconf_profile_path/etherpad-lite.plugins.list | (
+        while read line; do
+            if echo "$line" | grep -q '^ *[^ #]'; then
+                plugin=$(echo "$line" | xargs)
 
-        if [ ! -r "node_modules/$plugin" ]; then
-            echo "Installing EtherpadLite plugin: $plugin"
-            sudo -u etherpad-lite -g etherpad-lite npm install $plugin
-        fi
-    fi
-done
-# )
-# fi
+                if [ ! -r "node_modules/$plugin" ]; then
+                    echo "Installing EtherpadLite plugin: $plugin"
+                    sudo -u etherpad-lite -g etherpad-lite npm install $plugin
+                fi
+            fi
+        done
+    )
+fi
 
 # Enable service
 if [ "$(find /etc/rc*.d -name '*etherpad-lite' | wc -l)" -ne 0 ]; then
