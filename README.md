@@ -31,22 +31,22 @@ This profile provides [import/export](tree/etc/gitted/sync/) for:
 ## Gitted integration
 
 * To create a new Gitted repository, follow the instructions at
-  [How to setup Gitted for an application](https://github.com/geonef/sysconf.gitted/blob/master/doc/howto-create-new.md)
+  [How to setup Gitted for an tplication](http://gitted.io/tutorial/setup-gitted-sysconf/)
   
 * Then add this Sysconf profile:
 ```
-git subtree add -P sysconf/sysconf.gitted.etherpad git@github.com:geonef/sysconf.gitted.etherpad.git master
+git subtree add -P sysconf.gitted.etherpad git@github.com:geonef/sysconf.gitted.etherpad.git master
 ```
 
 * Integrate it in the dependency chain, for example:
 ```
-echo sysconf.gitted.etherpad >sysconf/actual/deps
+echo sysconf.gitted.etherpad >actual/deps
 ```
 
 * Then push it to the container:
 ```
-sysconf/gitted-client register
-git push <name> master
+./gitted-target init lxc:pad
+git push pad sysconf/master
 ```
 
 

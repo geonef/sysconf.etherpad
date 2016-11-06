@@ -84,6 +84,8 @@ done
 # )
 # fi
 
+fi
+
 # Enable service
 if [ "$(find /etc/rc*.d -name '*etherpad-lite' | wc -l)" -ne 0 ]; then
     update-rc.d etherpad-lite defaults
